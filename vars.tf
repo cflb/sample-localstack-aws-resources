@@ -52,5 +52,17 @@ variable "az_list" {
 variable "route53_domain" {
   description = "Nome do domínio a ser configurado no Route53"
   type        = string
-  default     = "meudominio.local"
+  default     = "cflb-domain.local"
+}
+
+variable "ami_id" {
+  default = "ami-058bd2d568351da34" # Debian 12 (64bits Arm)
+}
+
+variable "instance_type" {
+  default = "t3.micro"
+}
+
+variable "instance_privite_ip" {
+  default = "10.0.3.10"
 }

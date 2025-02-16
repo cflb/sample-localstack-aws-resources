@@ -53,10 +53,10 @@ resource "aws_subnet" "private_1" {
 resource "aws_subnet" "private_2" {
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.cidr_private_subnets[1]
-  availability_zone =  var.az_list[1]
+  availability_zone = var.az_list[1]
 }
 
-# Criar um Internet Gateway
+# Criando um Internet Gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 }
@@ -80,14 +80,40 @@ resource "aws_route_table_association" "public_2_association" {
   route_table_id = aws_route_table.public_route_table.id
 }
 
-resource "aws_route53_zone" "meu_dominio" {
+resource "aws_route53_zone" "domain_1" {
   name = var.route53_domain
 }
 
 resource "aws_route53_record" "www_private" {
-  zone_id = aws_route53_zone.meu_dominio.zone_id
+  zone_id = aws_route53_zone.domain_1.zone_id
   name    = "internal.${var.route53_domain}"
   type    = "A"
-  ttl     = 300
-  records = [aws_instance.ec2_instance_cluster.private_ip]  # Referenciando o IP privado
+  records = [aws_instance.ec2_instance_1.private_ip]  # Referenciando o IP privado
+}
+
+resource "aws_instance" "ec2_instance_1" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = aws_subnet.private_1.id # Colocando na subnet privada
+  private_ip    = var.instance_privite_ip
+}
+
+resource "aws_security_group" "ec2_sg" {
+  name        = "ec2-security-group"
+  description = "Allow inbound traffic on port 80 for EC2 instance"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
