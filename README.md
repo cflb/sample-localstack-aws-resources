@@ -1,4 +1,4 @@
-# Infrastructure Setup with OpenTofu
+# Setup Infraestrutura AWS com OpenTofu e LocalStack
 
 Este repositório contém uma configuração para provisionamento de recursos de infraestrutura em AWS, simulados pelo LocalStack, utilizando o **OpenTofu**.
 
