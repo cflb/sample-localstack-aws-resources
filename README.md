@@ -157,4 +157,3 @@ O repositório contém os seguintes arquivos`principais:
 
 - ***main.tf***: O arquivo principal de configuração, onde os recursos são definidos.
 - ***variables.tf***: Onde as variáveis utilizadas no main.tf são declaradas.
-- ***outputs.tf***: Onde as saídas (outputs) são configuradas, permitindo que você visualize informações sobre os recursos após o provisionamento.
